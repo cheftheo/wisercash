@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb://localhost:27017/wisercash"
+}
+
+type UsersTransactions {
+  transaction0 UsersTransactions0 @map("0")
+  transaction1 UsersTransactions1 @map("1")
+  transaction2 UsersTransactions2 @map("2")
+}
+
+type UsersTransactions0 {
+  timestamp String
+  title     String
+  trasanct  Float
+}
+
+type UsersTransactions1 {
+  timestamp String
+  title     String
+  trasanct  Float
+}
+
+type UsersTransactions2 {
+  timestamp String
+  title     String
+  trasanct  Float
+}
+
+model users {
+  id              String            @id @default(auto()) @map("_id") @db.ObjectId
+  adminLevel      Int
+  balance         Float
+  balanceCurrency String
+  password        String
+  transactions    UsersTransactions
+  user            String
+}
