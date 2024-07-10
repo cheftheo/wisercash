@@ -39,4 +39,5 @@ model users {
   password        String
   transactions    UsersTransactions
   user            String
+  email            String
 }
