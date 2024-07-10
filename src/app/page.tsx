@@ -3,16 +3,16 @@
 // import Image from 'next/image';
 // import Logo from 'public/logo.png';
 
+// import { Source_Code_Pro } from "next/font/google";
+// const srccodepro = Source_Code_Pro({ subsets: ["latin"] });
+
 import { Navbar } from "src/components/navbar";
-import { Source_Code_Pro } from "next/font/google";
 import React, { useEffect, useRef } from "react";
 
 import { animate, motion } from "framer-motion";
- 
-const srccodepro = Source_Code_Pro({ subsets: ["latin"] });
 
 function Counter({ from, to }: { from: number, to: number }) {
-  const nodeRef = useRef();
+  const nodeRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const node = nodeRef.current;
@@ -20,7 +20,9 @@ function Counter({ from, to }: { from: number, to: number }) {
     const controls = animate(from, to, {
       duration: 2,
       onUpdate(value) {
-        node.textContent = value.toFixed(0);
+        if (node) {
+          node.textContent = value.toFixed(0);
+        }
       },
     });
 
