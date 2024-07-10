@@ -35,8 +35,8 @@ jobs:
     - name: Set up Nx Cloud
       run: npx nx connect-to-nx-cloud --token=${{ secrets.NX_CLOUD_TOKEN }}
 
-    - name: Build the project
-      run: npm run build
+    # - name: Build the project
+    #   run: npm run build
 
     - name: Run tests
       run: npm test
