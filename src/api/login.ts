@@ -1,6 +1,7 @@
 "use server";
 import { PrismaClient } from '@prisma/client'
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 
 const prisma = new PrismaClient()
 
@@ -9,6 +10,7 @@ export const onSubmitLogin = async (email: string, password: string) => {
 
     if (user && user.email && user.password) {
         prisma.$disconnect();
+        cookies().set('username', user.user);
         redirect('dashboard');
     }  
 

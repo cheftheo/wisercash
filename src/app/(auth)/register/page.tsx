@@ -1,37 +1,74 @@
-const RegPage = () => {
+"use client";
+
+import { AuthSec } from "src/components/authSec";
+import { onSubmitRegister } from "src/api/register";
+import { FormEvent, useState } from 'react';
+import Link from 'next/link';
+
+const RegisterPage = () => {
+  const [error, setError] = useState<string>('');
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    const user = (document.getElementById('user') as HTMLInputElement).value || '';
+    const email = (document.getElementById('email') as HTMLInputElement).value || '';
+    const password = (document.getElementById('password') as HTMLInputElement).value || '';
+
+    // await onSubmitRegister(user, email, password);
+    const response = await onSubmitRegister(user, email, password);
+    if (response === 1) {
+      setError('Email already exists.');
+      return;
+    } 
+
+    if (response === 2) {
+      setError('User already exists.');
+      return;
+    }
+
+    if (typeof response === 'object') {
+      setError('')
+    }
+  };
+
   return (
-    <main>
-      <div className="flex flex-col">
-        <div className="flex justify-center items-center h-screen">
-          <div className="flex flex-col items-center">
-            <h1 className="text-3xl font-bold text-neutral-800">Login</h1>
-            <form className="flex flex-col">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className="p-2 border border-neutral-400 rounded-lg"
-              />
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="p-2 border border-neutral-400 rounded-lg"
-              />
-              <button
-                type="submit"
-                className="bg-amber-500 text-amber-50 rounded-lg p-2 mt-4"
-              >
-                Login
+    <main className="w-screen h-screen bg-zinc-900 overflow-hidden max-[600px]:overflow-y-auto">
+      <div className="flex flex-row max-[600px]:flex-col text-white">
+
+        <div className="w-1/2 max-[600px]:w-[150%]">
+          <div className="p-16 w-4/6 h-full mt-14">
+            <h1 className="text-3xl font-bold text-amber-50">We are glad to have you here!</h1>
+            <p className="text-amber-100">Please sign in to your account.</p>
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4" method="post">
+              <label className="text-amber-50" htmlFor="email"> Username </label>
+              <input className="focus:outline-0 rounded-lg p-2 bg-neutral-800 text-amber-100" type="text" id="user" name="user" />
+
+              <label className="text-amber-50" htmlFor="email"> Email </label>
+              <input className="focus:outline-0 rounded-lg p-2 bg-neutral-800 text-amber-100" type="email" id="email" name="email" />
+
+              <label className="text-amber-50" htmlFor="password">Password</label>
+              <input className="focus:outline-0 rounded-lg p-2 bg-neutral-800 text-amber-100" type="password" id="password" name="password"  />
+
+              {error && <p className="text-red-500">{error}</p>}
+
+              <button id="registerbtn" className="transition-all bg-amber-50 text-neutral-900 rounded-lg p-2 hover:bg-amber-100" type="submit">
+                Sign in
               </button>
+
+              <Link className="transition-all text-amber-50 hover:text-amber-100" href="/login">Already have an account?</Link>
             </form>
           </div>
+        </div>
+
+        <div className="w-1/2">
+          <AuthSec />
         </div>
       </div>
     </main>
   );
 };
 
-export default RegPage;
+export default RegisterPage;
