@@ -19,8 +19,9 @@ const LoginPage = () => {
       <div className="flex flex-row max-[600px]:flex-col text-white">
 
         <div className="w-1/2 max-[600px]:w-[150%]">
-          <div className="p-16 w-4/6 h-full mt-24">
-            <h1 className="text-3xl font-bold text-amber-50">Welcome back!</h1>
+          <div className="p-16 w-4/6 h-full mt-20">
+            <Link href={"/"} className="transition-all text-amber-100 max-[600px]:text-2xl font-bold p-2 outline outline-1 outline-amber-50 rounded-xl hover:bg-amber-100 hover:text-zinc-500">&lt; Home</Link>
+            <h1 className="text-3xl font-bold text-amber-50 mt-4">Welcome back!</h1>
             <p className="text-amber-100">Please sign in to your account.</p>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4" method="post">
