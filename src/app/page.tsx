@@ -7,30 +7,8 @@
 // const srccodepro = Source_Code_Pro({ subsets: ["latin"] });
 
 import { Navbar } from "src/components/navbar";
-import React, { useEffect, useRef } from "react";
-
-import { animate, motion } from "framer-motion";
-
-function Counter({ from, to }: { from: number, to: number }) {
-  const nodeRef = useRef<HTMLParagraphElement>(null);
-
-  useEffect(() => {
-    const node = nodeRef.current;
-
-    const controls = animate(from, to, {
-      duration: 2,
-      onUpdate(value) {
-        if (node) {
-          node.textContent = value.toFixed(0);
-        }
-      },
-    });
-
-    return () => controls.stop();
-  }, [from, to]);
-
-  return <p ref={nodeRef} />;
-}
+import { motion } from "framer-motion";
+import { Counter } from "src/utils/counter";
 
 export default function Index() {
   return (
