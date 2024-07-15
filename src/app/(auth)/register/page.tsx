@@ -1,35 +1,44 @@
 "use client";
 
 import { AuthSec } from "src/components/authSec";
-import { onSubmitRegister } from "src/api/register";
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
 import Link from 'next/link';
+
+import { useRouter } from 'next/navigation';
+import { getCookies, setCookie, deleteCookie, getCookie } from 'cookies-next';
 
 const RegisterPage = () => {
   const [error, setError] = useState<string>('');
+  const router = useRouter();
+
+  useEffect(() => {
+    if (getCookie('username')) {
+      console.log('User already logged in');
+      router.push('/dashboard')
+    };
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
 
-    const user = (document.getElementById('user') as HTMLInputElement).value || '';
+    const username = (document.getElementById('user') as HTMLInputElement).value || '';
     const email = (document.getElementById('email') as HTMLInputElement).value || '';
     const password = (document.getElementById('password') as HTMLInputElement).value || '';
 
     // await onSubmitRegister(user, email, password);
-    const response = await onSubmitRegister(user, email, password);
-    if (response === 1) {
-      setError('Email already exists.');
-      return;
-    } 
-
-    if (response === 2) {
-      setError('User already exists.');
-      return;
-    }
-
-    if (typeof response === 'object') {
-      setError('')
+    const response = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password, email })
+    });
+  
+    if (response.status === 200) {
+      console.log('User registered');
+      router.push('/dashboard');
+    } else {
+      const data = await response.json();
+      setError(data.error);
     }
   };
 

@@ -1,27 +1,22 @@
 "use client";
 import DashNav from "src/components/dashNav";
-import { CustomTooltip } from "src/components/tooltip";
 import { Card } from "src/components/cards";
 
-import { getUserData } from "src/api/getData";
+// import { getUserTransactions } from "src/api/userData";
 
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useState, useEffect } from "react";
 
+import { useRouter } from 'next/navigation';
+import { getCookie } from 'cookies-next';
+
 export default function Index() {
+  const router = useRouter();
+
   const [data, setData] = useState<{ trasanct: number; title: string; timestamp: string; }[]>([]);
 
   useEffect(() => {
-    getUserData('theodev', 'transactions').then((data) => {
-      // console.log(data);
-      var toSet: { trasanct: number, title: string, timestamp: string }[] = [];
-      Object.entries(data).map(([key, value]) => {  
-        // console.log()
-        toSet = [...toSet, { trasanct: value.trasanct, title: value.title, timestamp: value.timestamp }];
-      });
-
-      setData(toSet);
-    });
+    
   }, []);
 
   return (
@@ -37,7 +32,7 @@ export default function Index() {
         </div>
 
         <div className="bg-zinc-800 text-white p-2 rounded-lg">
-          <AreaChart
+          {/* <AreaChart
             width={500}
             height={300}
             data={data}
@@ -48,12 +43,11 @@ export default function Index() {
               bottom: 0,
             }}
           >
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <XAxis dataKey="timestamp" />
             <YAxis />
             <Tooltip />
             <Area type="monotone" dataKey="trasanct" stroke="#8884d8" fill="#8884d8" />
-          </AreaChart>
+          </AreaChart> */}
         </div>
       </div>
     </main>

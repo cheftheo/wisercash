@@ -1,17 +1,34 @@
 "use client";
 
 import { AuthSec } from "src/components/authSec";
-import { onSubmitLogin } from "src/api/login";
-import { FormEvent } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
 import Link from 'next/link';
 
+import { useRouter } from 'next/navigation';
+import { getCookie } from 'cookies-next';
+
 const LoginPage = () => {
+  const [error, setError] = useState<string>('');
+  const router = useRouter();
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const email = (document.getElementById('email') as HTMLInputElement).value || '';
+    const username = (document.getElementById('username') as HTMLInputElement).value || '';
     const password = (document.getElementById('password') as HTMLInputElement).value || '';
-    // await onSubmitLogin(email, password)
-    await onSubmitLogin(email, password);
+
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    if (response.status === 200) {
+      console.log('User registered');
+      router.push('/dashboard');
+    } else {
+      const data = await response.json();
+      setError(data.error);
+    }
   };
 
   return (
@@ -25,11 +42,13 @@ const LoginPage = () => {
             <p className="text-amber-100">Please sign in to your account.</p>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4" method="post">
-              <label className="text-amber-50" htmlFor="email"> Email </label>
-              <input className="focus:outline-0 rounded-lg p-2 bg-neutral-800 text-amber-100" type="email" id="email" name="email" />
+              <label className="text-amber-50" htmlFor="username"> Username </label>
+              <input className="focus:outline-0 rounded-lg p-2 bg-neutral-800 text-amber-100" type="username" id="username" name="username" />
 
               <label className="text-amber-50" htmlFor="password">Password</label>
               <input className="focus:outline-0 rounded-lg p-2 bg-neutral-800 text-amber-100" type="password" id="password" name="password"  />
+
+              {error && <p className="text-red-500">{error}</p>}
 
               <button className="transition-all bg-amber-50 text-neutral-900 rounded-lg p-2 hover:bg-amber-100" type="submit">
                 Sign in
