@@ -5,7 +5,6 @@ import { FormEvent, useState, useEffect } from 'react';
 import Link from 'next/link';
 
 import { useRouter } from 'next/navigation';
-import { getCookie } from 'cookies-next';
 
 const LoginPage = () => {
   const [error, setError] = useState<string>('');
