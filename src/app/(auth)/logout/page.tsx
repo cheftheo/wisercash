@@ -1,7 +1,6 @@
 "use client";
 
 import { AuthSec } from "src/components/authSec";
-import { onSubmitLogin } from "src/api/login";
 import { FormEvent, useEffect } from 'react';
 import Link from 'next/link';
 
