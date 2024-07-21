@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 
 export default function Index() {
   return (
-    <main className='text-white bg-zinc-900 h-screen w-screen overflow-hidden max-[600px]:overflow-y-auto'>
+    <main className='text-white bg-zinc-900 h-screen w-screen overflow-hidden max-[600px]:h-fit max-[600px]:overflow-y-auto'>
       <DashNav />
 
       <div className="w-11/12 max-[600px]:m-5 h-[70%] m-16 gap-8 grid grid-cols-3 grid-rows-2 max-[600px]:flex max-[600px]:flex-col max-[600px]:relative">
