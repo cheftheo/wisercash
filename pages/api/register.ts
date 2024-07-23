@@ -2,7 +2,8 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import client from '../../src/lib/db';
-import { setCookie } from 'cookies-next';
+
+import { cookies } from 'next/headers'
 
 const generateUniqueId = (username: string) => {
     const date = new Date().getTime()
@@ -33,6 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         userId
     });
 
-    setCookie('username', username, { req, res, maxAge: 60 * 60 * 24, httpOnly: true });
+
+    // const cookiesStore = cookies();
+    // cookiesStore.set('username', username);
     res.status(200).json({ message: 'User registered' });
 }

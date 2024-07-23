@@ -2,7 +2,7 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import client from '../../src/lib/db';
-import { setCookie } from 'cookies-next';
+import { cookies } from 'next/headers'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') {
@@ -18,13 +18,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(401).json({ error: 'User not found' });
         return;
     }
-
+    
     const userData = await client.hGetAll(`users:${username}`);
     if (userData.password !== password) {
         res.status(401).json({ error: 'Invalid credentials' });
         return;
     }
+    
 
-    setCookie('username', username, { req, res, maxAge: 60 * 60 * 24, httpOnly: true });
+    // const cookiesStore = cookies();
+    // cookiesStore.set('username', username);
     res.status(200).json({ error: 'Login successful' });
 }
